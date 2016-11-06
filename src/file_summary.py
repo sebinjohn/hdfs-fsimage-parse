@@ -3,7 +3,7 @@
 # contains the details of the other section in the serialized FSImage
 
 
-import fsimage_pb2
+import protobufs.fsimage_pb2 as fsimage_pb2
 from google.protobuf.internal import decoder as decoder
 
 

@@ -38,13 +38,24 @@ def parse_inode_section(buf, file_summary):
     return inode_section
 
 
+def write_a_million(outf, temp):
+    interim = [x.name for x in temp]
+    outf.write('\n'.join(interim))
+
+
 def main():
     buf = read_input_file(sys.argv[1])
     file_summary = parse_file_summary(buf)
     inode_section = parse_inode_section(buf, file_summary)
-    ten_inodes = inode_section.get_n_inodes(10)
-    for i in ten_inodes:
-        print i.name
+    inodes = inode_section.get_n_inodes(inode_section.num_inodes)
+    with open('file_names.sc', 'w') as outf:
+        n = 0
+        MILLION = 1000000
+        a = inode_section.num_inodes / MILLION
+        while n <= a * MILLION:
+            outf.write('\n'.join(next(inodes).name for _ in xrange(MILLION)))
+            n += MILLION
+        outf.write('\n'.join(next(inodes).name for _ in xrange(inode_section.num_inodes - n)))
 
 if __name__ == '__main__':
     main()

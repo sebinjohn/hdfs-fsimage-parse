@@ -52,13 +52,11 @@ class INodeSection(object):
         else:
             inode_sec = self.inode_section
 
-        inodes = []
         new_pos = start_pos
         for _ in xrange(n):
             (len, pos) = decoder._DecodeVarint(self.buf, new_pos)
             inode_bytes = self.buf[pos:pos + len]
             inode = inode_sec.INode()
             inode.ParseFromString(inode_bytes)
-            inodes.append(inode)
             new_pos = pos + len
-        return inodes
+            yield inode
